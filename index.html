@@ -1,0 +1,1852 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- HEAD — meta, fonts, Tailwind config, custom CSS                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
+<!-- Character encoding and responsive viewport -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="Amir Haouala - Fullstack Engineer based in Tunis, Tunisia"
+/>
+<title>Amir Haouala | Fullstack Engineer</title>
+
+<!-- Google Fonts — loaded before anything that uses them -->
+<!-- Montserrat: main page body & headings                        -->
+<!-- Cinzel, Playfair Display, Space Mono, VT323, Oranienbaum:    -->
+<!--   used by the Terminal section for its retro aesthetic       -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;500;600;700&family=Oranienbaum&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono&family=VT323&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- Tailwind CSS — utility-first CSS framework, loaded from CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!--
+    Tailwind configuration.
+    We extend the default theme to add custom colours and fonts
+    so we can use them with Tailwind utility classes throughout.
+    The colour palette serves both the main portfolio sections
+    (dark, beige, grey) and the Terminal section (terminal green,
+    accent red/gold, dark surface colours).
+  -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          dark: "#000000",
+          "dark-secondary": "#1a1a1a",
+          "dark-tertiary": "#2a2a2a",
+          beige: "#c5b8a5",
+          grey: "#dfdfdf",
+          terminal: "#33ff00",
+          danger: "#ff1a1a",
+          accent: { red: "#c41e3a", gold: "#b8860b" },
+        },
+        fontFamily: {
+          sans: ["Montserrat", "system-ui", "sans-serif"],
+          display: ["Cinzel", "serif"],
+          heading: ["Playfair Display", "serif"],
+          body: ["Space Mono", "monospace"],
+          terminal: ["VT323", "monospace"],
+          accent: ["Oranienbaum", "serif"],
+        },
+      },
+    },
+  };
+</script>
+
+<!--
+    Custom CSS — things Tailwind can't do alone:
+    - Keyframe animations (fade-up, bounce, cursor blink)
+    - Scrollbar styling
+    - Link underline hover effect
+    - Card hover transitions
+    - Scroll-reveal visibility toggles
+    - CRT terminal effects (scanlines, vignette)
+    - Terminal entrance animation
+  -->
+<style>
+  ::selection,
+  *::selection {
+    background: #c5b8a5;
+    color: #000;
+  }
+  ::-moz-selection,
+  *::-moz-selection {
+    background: #c5b8a5;
+    color: #000;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* SCROLLBAR — thin, dark, with beige hover                       */
+  /* ═══════════════════════════════════════════════════════════════ */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c5b8a5;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* LINK UNDERLINE — animated line on hover                        */
+  /* ═══════════════════════════════════════════════════════════════ */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #c5b8a5;
+    transition: width 0.3s ease-out;
+  }
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* CARD HOVER — lift and border glow on hover                     */
+  /* ═══════════════════════════════════════════════════════════════ */
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* SCROLL REVEAL — fade/slide in when scrolling into view         */
+  /* ═══════════════════════════════════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s ease-out;
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition:
+      opacity 0.8s ease-out,
+      transform 0.8s ease-out;
+  }
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* KEYFRAME ANIMATIONS                                            */
+  /* ═══════════════════════════════════════════════════════════════ */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+  }
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+  .animate-bounce-slow {
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* STAGGER DELAYS — for sequential hero text entrance             */
+  /* ═══════════════════════════════════════════════════════════════ */
+  .stagger-2 {
+    animation-delay: 0.15s;
+    opacity: 0;
+  }
+  .stagger-3 {
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+  .stagger-4 {
+    animation-delay: 0.45s;
+    opacity: 0;
+  }
+  .stagger-5 {
+    animation-delay: 0.6s;
+    opacity: 0;
+  }
+  .delay-100 {
+    transition-delay: 0.1s;
+  }
+  .delay-200 {
+    transition-delay: 0.2s;
+  }
+  .delay-300 {
+    transition-delay: 0.3s;
+  }
+  .delay-400 {
+    transition-delay: 0.4s;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* PRIMARY BUTTON — outlined beige, fills on hover                */
+  /* ═══════════════════════════════════════════════════════════════ */
+  .btn-primary {
+    border: 1px solid #c5b8a5;
+    color: #c5b8a5;
+    background: transparent;
+    padding: 1rem 2rem;
+    transition: all 0.3s;
+  }
+  .btn-primary:hover {
+    background: #c5b8a5;
+    color: #000;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* CRT TERMINAL EFFECTS                                           */
+  /* ═══════════════════════════════════════════════════════════════ */
+
+  /* Blinking block cursor — the green rectangle after typed text */
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  .cursor-blink {
+    display: inline-block;
+    width: 10px;
+    height: 18px;
+    background: #33ff00;
+    animation: blink 1.06s step-end infinite;
+    vertical-align: middle;
+  }
+
+  /*
+      CRT scanline overlay — horizontal dark lines that make the
+      terminal look like an old CRT monitor.
+    */
+  .crt-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+  }
+
+  /*
+      Vignette — darkens the edges of the terminal section,
+      drawing the eye toward the center.
+    */
+  .crt-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+
+  /*
+      Terminal entrance animation — starts slightly scaled down
+      and invisible, then grows and fades in when scrolled into view.
+      The .active class is added by JavaScript (IntersectionObserver).
+    */
+  .terminal-entrance {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .terminal-entrance.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /*
+      Terminal social buttons — green outline by default,
+      fill with green and turn text black on hover.
+    */
+  .terminal-btn {
+    transition: all 0.2s ease;
+  }
+  .terminal-btn:hover {
+    background-color: #33ff00;
+    color: #000000;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════ */
+  /* ACCESSIBILITY — respect user's motion preferences              */
+  /* ═══════════════════════════════════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+  </head>
+  <body class="bg-dark text-white font-sans antialiased">
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- NAVIGATION BAR                                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Fixed to the top of the viewport. Starts transparent, gets a   -->
+<!-- dark blurred background on scroll (handled by script.js).      -->
+<!-- z-50 keeps it above everything else.                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
+>
+  <div class="max-w-[1200px] mx-auto px-6 sm:px-12 lg:px-16">
+    <div class="flex items-center justify-between h-20">
+      <!-- Monogram logo -->
+      <a href="#" class="text-2xl font-semibold text-white tracking-tight"
+        ><!-- Monogram logo "AH" — blood red, Cinzel display font -->
+        <span
+          class="font-display text-2xl font-bold tracking-[0.1em]"
+          style="color: #c41e3a"
+          >AH</span
+        >
+      </a>
+
+      <!-- Desktop nav links — hidden on mobile, shown on md+ screens -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a
+          href="#about"
+          class="link-underline text-sm font-medium text-grey hover:text-white transition-colors duration-300"
+          >About</a
+        >
+        <a
+          href="#skills"
+          class="link-underline text-sm font-medium text-grey hover:text-white transition-colors duration-300"
+          >Skills</a
+        >
+        <a
+          href="#projects"
+          class="link-underline text-sm font-medium text-grey hover:text-white transition-colors duration-300"
+          >Projects</a
+        >
+        <a
+          href="#experience"
+          class="link-underline text-sm font-medium text-grey hover:text-white transition-colors duration-300"
+          >Experience</a
+        >
+        <a
+          href="#contact"
+          class="link-underline text-sm font-medium text-grey hover:text-white transition-colors duration-300"
+          >Contact</a
+        >
+      </div>
+
+      <!-- Mobile hamburger button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden text-white p-2"
+        aria-label="Toggle menu"
+      >
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6" id="menu-icon">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+</svg>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6 hidden" id="close-icon">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+</svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu overlay — hidden by default, toggled via JS -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden fixed w-full min-h-screen bg-dark z-40"
+  >
+    <div class="flex flex-col items-center justify-center h-full space-y-8">
+      <a
+        href="#about"
+        class="text-2xl font-medium text-white hover:text-beige transition-colors duration-300 mobile-link"
+        >About</a
+      >
+      <a
+        href="#skills"
+        class="text-2xl font-medium text-white hover:text-beige transition-colors duration-300 mobile-link"
+        >Skills</a
+      >
+      <a
+        href="#projects"
+        class="text-2xl font-medium text-white hover:text-beige transition-colors duration-300 mobile-link"
+        >Projects</a
+      >
+      <a
+        href="#experience"
+        class="text-2xl font-medium text-white hover:text-beige transition-colors duration-300 mobile-link"
+        >Experience</a
+      >
+      <a
+        href="#contact"
+        class="text-2xl font-medium text-white hover:text-beige transition-colors duration-300 mobile-link"
+        >Contact</a
+      >
+    </div>
+  </div>
+</nav>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- HERO SECTION                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Full viewport height. Name, title, tagline, contact info, and  -->
+<!-- animated scroll-down indicator. Text fades in with staggered   -->
+<!-- delays on page load.                                           -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section
+  class="relative min-h-screen flex flex-col justify-center items-center bg-dark overflow-hidden"
+>
+  <!-- Subtle gradient background -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-dark via-dark to-dark-secondary opacity-50"
+  ></div>
+  <!-- Fine grid pattern overlay -->
+  <div
+    class="absolute inset-0 opacity-[0.03]"
+    style="
+      background-image:
+        linear-gradient(#c5b8a5 1px, transparent 1px),
+        linear-gradient(90deg, #c5b8a5 1px, transparent 1px);
+      background-size: 50px 50px;
+    "
+  ></div>
+
+  <!-- Hero content -->
+  <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <h1
+      class="text-[10vw] sm:text-[8vw] md:text-[7vw] font-semibold text-white uppercase tracking-tight leading-[0.9] opacity-0 animate-fade-up"
+    >
+      Amir
+    </h1>
+    <h1
+      class="text-[10vw] sm:text-[8vw] md:text-[7vw] font-semibold text-white uppercase tracking-tight leading-[0.9] mb-6 opacity-0 animate-fade-up stagger-2"
+    >
+      Haouala
+    </h1>
+    <p
+      class="text-xl sm:text-2xl md:text-3xl font-light text-beige mb-4 opacity-0 animate-fade-up stagger-3"
+    >
+      Fullstack Engineer
+    </p>
+    <p
+      class="text-base sm:text-lg text-grey max-w-2xl mx-auto mb-12 opacity-0 animate-fade-up stagger-4"
+    >
+      Building scalable infrastructure &amp; applications with expertise in AI
+      and cybersecurity
+    </p>
+    <div
+      class="flex flex-wrap justify-center gap-6 sm:gap-8 text-sm text-grey opacity-0 animate-fade-up stagger-5"
+    >
+      <a
+        href="mailto:amir-haouala@outlook.com"
+        class="flex items-center gap-2 hover:text-beige transition-colors duration-300"
+      >
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4">
+  <rect width="20" height="16" x="2" y="4" rx="2"/>
+  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+</svg>
+        <span>amir-haouala@outlook.com</span>
+      </a>
+      <a
+        href="tel:+21658804727"
+        class="flex items-center gap-2 hover:text-beige transition-colors duration-300"
+      >
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4">
+  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+</svg>
+        <span>+216 58 804 727</span>
+      </a>
+      <span class="flex items-center gap-2">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4">
+  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+  <circle cx="12" cy="10" r="3"/>
+</svg>
+        <span>Tunis, Tunisia</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Scroll-down arrow -->
+  <a
+    href="#about"
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 text-grey hover:text-beige transition-colors duration-300 animate-bounce-slow"
+  >
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-8 h-8">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+</svg>
+  </a>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- ABOUT SECTION                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Bio paragraph on the left, three feature cards on the right.   -->
+<!-- Cards animate in with staggered delays on scroll.              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="about" class="relative pt-20 pb-16 bg-dark">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 reveal">
+      <span
+        class="text-beige text-sm font-medium tracking-widest uppercase mb-4 block"
+        >About Me</span
+      >
+      <h2
+        class="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight"
+      >
+        Software Engineer<br /><span class="text-grey">based in Tunis</span>
+      </h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-16 items-start">
+      <div class="space-y-6 reveal delay-100">
+        <p class="text-lg text-grey leading-relaxed">
+          Software engineer passionate about solving challenging problems
+          through critical and creative thinking. Eager to collaborate in
+          environments where knowledge and motivation are shared.
+        </p>
+        <p class="text-lg text-grey leading-relaxed">
+          With experience spanning fullstack development, cloud infrastructure,
+          and AI, I bring a comprehensive approach to building robust, secure,
+          and scalable solutions.
+        </p>
+      </div>
+      <div class="space-y-6">
+        <div
+          class="flex items-start gap-4 p-6 bg-dark-secondary border border-dark-tertiary rounded-lg reveal delay-200"
+        >
+          <div class="p-3 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6 text-beige">
+  <polyline points="16 18 22 12 16 6"/>
+  <polyline points="8 6 2 12 8 18"/>
+</svg>
+          </div>
+          <div>
+            <h3 class="text-white font-medium mb-1">Fullstack Development</h3>
+            <p class="text-grey text-sm">
+              End-to-end application development with modern frameworks
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex items-start gap-4 p-6 bg-dark-secondary border border-dark-tertiary rounded-lg reveal delay-400"
+        >
+          <div class="p-3 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6 text-beige">
+  <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+  <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+</svg>
+          </div>
+          <div>
+            <h3 class="text-white font-medium mb-1">Artificial Intelligence</h3>
+            <p class="text-grey text-sm">
+              Building intelligent systems with the latest data science trends
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- EDUCATION SECTION — two academic cards                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Two side-by-side cards with a left accent bar, icon, degree,   -->
+<!-- school name, dates, and a short description.                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="education" class="relative py-32 bg-dark">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 reveal">
+      <span
+        class="text-beige text-sm font-medium tracking-widest uppercase mb-4 block"
+        >Education</span
+      >
+      <h2
+        class="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight"
+      >
+        Academic Background
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Card 1: Engineering Degree -->
+      <div
+        class="relative bg-dark-secondary border border-dark-tertiary rounded-lg p-8 hover:border-beige/50 transition-all duration-300 reveal-left"
+      >
+        <div
+          class="absolute left-0 top-0 bottom-0 w-1 bg-beige rounded-l-lg"
+        ></div>
+        <div class="flex items-start gap-4 mb-4">
+          <div class="p-3 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6 text-beige">
+  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+</svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-medium text-white mb-1">
+              Engineering Degree in Computer Science
+            </h3>
+            <p class="text-beige text-sm">
+              National School of Computer Science
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-grey text-sm mb-4 ml-[4.5rem]">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4">
+  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+  <line x1="16" x2="16" y1="2" y2="6"/>
+  <line x1="8" x2="8" y1="2" y2="6"/>
+  <line x1="3" x2="21" y1="10" y2="10"/>
+</svg>
+          ><span>2018 - 2021</span>
+        </div>
+        <p class="text-grey text-sm leading-relaxed ml-[4.5rem]">
+          Specialized in software engineering with focus on programming and
+          computer vision.
+        </p>
+      </div>
+
+      <!-- Card 2: Undergraduate Preparation -->
+      <div
+        class="relative bg-dark-secondary border border-dark-tertiary rounded-lg p-8 hover:border-beige/50 transition-all duration-300 reveal-right"
+      >
+        <div
+          class="absolute left-0 top-0 bottom-0 w-1 bg-beige rounded-l-lg"
+        ></div>
+        <div class="flex items-start gap-4 mb-4">
+          <div class="p-3 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-6 h-6 text-beige">
+  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+  <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+</svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-medium text-white mb-1">
+              Undergraduate Engineering Preparation
+            </h3>
+            <p class="text-beige text-sm">
+              Faculty of Mathematical, Physical and Natural Sciences of Tunis
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-grey text-sm mb-4 ml-[4.5rem]">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4">
+  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+  <line x1="16" x2="16" y1="2" y2="6"/>
+  <line x1="8" x2="8" y1="2" y2="6"/>
+  <line x1="3" x2="21" y1="10" y2="10"/>
+</svg>
+          ><span>2016 - 2018</span>
+        </div>
+        <p class="text-grey text-sm leading-relaxed ml-[4.5rem]">
+          Intensive preparation in mathematics, physics, and computer science
+          fundamentals.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TERMINAL SECTION — interactive command-line portfolio          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- A retro CRT terminal where visitors can type commands:         -->
+<!--   skills, experience, contact, clear                           -->
+<!-- Contains scanline overlay, vignette, and typing animations.    -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section
+  id="terminal"
+  class="relative w-full flex items-center justify-center"
+  style="background: #000000; padding: 80px 24px"
+>
+  <!-- CRT scanline overlay — creates the retro monitor look -->
+  <div class="crt-overlay absolute inset-0 pointer-events-none"></div>
+
+  <!--
+      Static noise texture overlay — very subtle film grain.
+      Uses an inline SVG data URI so no external file is needed.
+      pointer-events: none means clicks pass through to the terminal.
+    -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="
+      opacity: 0.04;
+      background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;);
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    "
+  ></div>
+
+  <!--
+      Terminal content wrapper.
+      z-10 places it above the CRT overlays.
+      max-w-[800px] prevents the terminal from becoming too wide.
+    -->
+  <div class="relative z-10 w-full max-w-[800px]">
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TERMINAL WINDOW                                            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--
+        The main terminal box. Has:
+        - Dark background (#0a0a0a)
+        - Subtle border (#1a1a1a)
+        - Very faint green glow shadow
+        - Entrance animation (terminal-entrance class, activated by JS)
+      -->
+    <div
+      id="terminalWindow"
+      class="terminal-entrance"
+      style="
+        background: #0a0a0a;
+        border: 1px solid #1a1a1a;
+        box-shadow: 0 0 60px rgba(51, 255, 0, 0.05);
+      "
+    >
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- TERMINAL HEADER — macOS-style window chrome            -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!--
+          The coloured dots (red/yellow/green) mimic macOS window buttons.
+          The centered text shows the "user@host" prompt format.
+        -->
+      <div
+        class="flex items-center h-8 px-4 gap-2"
+        style="background: #111111; border-bottom: 1px solid #1a1a1a"
+      >
+        <!-- Three coloured dots -->
+        <div class="flex gap-2">
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            style="background: #ff5f56"
+          ></div>
+          <!-- close (red) -->
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            style="background: #ffbd2e"
+          ></div>
+          <!-- minimize (yellow) -->
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            style="background: #27c93f"
+          ></div>
+          <!-- maximize (green) -->
+        </div>
+        <!-- User@hostname — centered, VT323 terminal font, green -->
+        <div
+          class="font-terminal text-sm flex-1 text-center"
+          style="color: #33ff00"
+        >
+          amir@haouala:~$
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- TERMINAL BODY — where all text appears                 -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!--
+          This div is populated entirely by JavaScript. When the page
+          loads, the welcome message is typed out. Then an input line
+          appears. As the user types commands, output lines are appended
+          here.
+
+          Clicking anywhere in this div focuses the hidden input field
+          (see below) so the user can type immediately.
+        -->
+      <div
+        id="terminalOutput"
+        class="p-6 md:p-8 overflow-y-auto font-terminal"
+        style="
+          font-size: 18px;
+          color: #33ff00;
+          line-height: 1.6;
+          max-height: 60vh;
+        "
+      >
+        <!-- Content injected by JavaScript — see script.js -->
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SOCIAL BUTTONS — below the terminal window               -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--
+        Three outlined buttons: [email], [github], [linkedin].
+        Hover fills the button with phosphor green and inverts text
+        to black — a satisfying retro-terminal feedback effect.
+      -->
+    <div class="flex flex-wrap justify-center gap-4 mt-8">
+      <a
+        href="https://linkedin.com/in/amir-haouala"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="terminal-btn font-body text-xs px-4 py-2"
+        style="color: #33ff00; border: 1px solid #33ff00"
+        >[linkedin]</a
+      >
+      <a
+        href="https://github.com/amirhaouala"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="terminal-btn font-body text-xs px-4 py-2"
+        style="color: #33ff00; border: 1px solid #33ff00"
+        >[github]</a
+      >
+      <a
+        href="https://www.instagram.com/amirhwl/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="terminal-btn font-body text-xs px-4 py-2"
+        style="color: #33ff00; border: 1px solid #33ff00"
+        >[instagram]</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- HIDDEN INPUT FIELD                                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--
+    This is the secret behind the terminal interaction. It's a real
+    HTML <input> element but completely invisible. When the user clicks
+    the terminal, this input gets focus and captures all keyboard input.
+    JavaScript reads its value and displays it in the terminal body.
+
+    autocomplete="off" and spellcheck="false" prevent the browser from
+    showing suggestions or red underlines — would break the illusion.
+  -->
+<input
+  id="terminalInput"
+  type="text"
+  class="fixed opacity-0"
+  style="
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: 0;
+  "
+  autocomplete="off"
+  spellcheck="false"
+/>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SKILLS SECTION — technology cards grid                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 8 category cards in a responsive grid. Each card has an icon,  -->
+<!-- a title, and a row of technology tags.                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="skills" class="relative py-32 bg-dark-secondary">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center reveal">
+      <span
+        class="text-beige text-sm font-medium tracking-widest uppercase mb-4 block"
+        >Skills</span
+      >
+      <h2
+        class="text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight"
+      >
+        Technologies I Use
+      </h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <!-- Programming Languages -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-100"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <polyline points="16 18 22 12 16 6"/>
+  <polyline points="8 6 2 12 8 18"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Programming Languages</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Go</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Node.js</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >TypeScript</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Python</span
+          >
+        </div>
+      </div>
+
+      <!-- Frontend Development -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-100"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+  <line x1="3" x2="21" y1="9" y2="9"/>
+  <line x1="9" x2="9" y1="21" y2="9"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Frontend Development</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >React</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >SolidJS</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >SvelteKit</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Astro</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Tailwind CSS</span
+          >
+        </div>
+      </div>
+
+      <!-- Backend & CI/CD -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-200"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <rect width="20" height="8" x="2" y="2" rx="2" ry="2"/>
+  <rect width="20" height="8" x="2" y="14" rx="2" ry="2"/>
+  <line x1="6" x2="6.01" y1="6" y2="6"/>
+  <line x1="6" x2="6.01" y1="18" y2="18"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Backend &amp; CI/CD</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Parse Server</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >supabase/gotrue</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >GraphQL</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Github Actions</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Laravel</span
+          >
+        </div>
+      </div>
+
+      <!-- Infrastructure & Cloud -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-200"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="M17.5 19c0-1.7-1.3-3-3-3h-5c-1.7 0-3 1.3-3 3"/>
+  <path d="M17.5 19c1.7 0 3-1.3 3-3 0-1.4-1-2.6-2.3-2.9.1-.4.2-.8.2-1.1 0-2.8-2.2-5-5-5-2.3 0-4.3 1.6-4.9 3.7-.6-.4-1.3-.7-2.1-.7-1.9 0-3.4 1.5-3.4 3.4 0 .3 0 .6.1.9C1.9 14.6 1 15.7 1 17c0 1.7 1.3 3 3 3h13.5z"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">
+            Infrastructure &amp; Cloud
+          </h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Linux Server</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Containerization</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Virtualization</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >HAProxy</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >TLS</span
+          >
+        </div>
+      </div>
+
+      <!-- Databases -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-300"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <ellipse cx="12" cy="5" rx="9" ry="3"/>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"/>
+  <path d="M3 12A9 3 0 0 0 21 12"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Databases</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >PostgreSQL</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Redis</span
+          >
+        </div>
+      </div>
+
+      <!-- Security & Testing -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-300"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Security &amp; Testing</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Burp Suite</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Security Onion</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Robot</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Selenium</span
+          >
+        </div>
+      </div>
+
+      <!-- AI & Machine Learning -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-400"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+  <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">
+            AI &amp; Machine Learning
+          </h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Google Colab</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Data Engineering</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Fine Tuning</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Agents prompting</span
+          >
+        </div>
+      </div>
+
+      <!-- Operating System -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-400"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <rect width="20" height="14" x="2" y="3" rx="2" ry="2"/>
+  <line x1="8" x2="16" y1="21" y2="21"/>
+  <line x1="12" x2="12" y1="17" y2="21"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Operating System</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Fedora</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Hyprland</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Fish</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >GNU/Emacs</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Waybar</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Rofi</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >AGS</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >VSCodium</span
+          >
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div
+        class="bg-dark border border-dark-tertiary rounded-lg p-6 hover:border-beige/50 transition-all duration-300 reveal delay-400"
+      >
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2 bg-beige/10 rounded-lg">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="m5 8 6 6"/>
+  <path d="m4 14 6-6 2-3"/>
+  <path d="M2 5h12"/>
+  <path d="M7 2h1"/>
+  <path d="m22 22-5-10-5 10"/>
+  <path d="M14 18h6"/>
+</svg>
+          </div>
+          <h3 class="text-white font-medium text-sm">Languages</h3>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >English</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >Arabic</span
+          ><span
+            class="px-2 py-1 text-xs text-grey bg-dark-tertiary rounded hover:text-beige hover:bg-beige/10 transition-colors duration-200"
+            >French</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PROJECTS SECTION — featured work cards                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Two project cards in a 2-column grid. Each has a gradient      -->
+<!-- placeholder image, title, description, and tech tags. Two cards -->
+<!-- have external links that appear on hover.                      -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="projects" class="relative py-32 bg-dark-secondary">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 reveal">
+      <span
+        class="text-beige text-sm font-medium tracking-widest uppercase mb-4 block"
+        >Projects</span
+      >
+      <h2
+        class="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight"
+      >
+        Featured Work
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Project 1: Fedora and arch linux on Hyprland post-installation script -->
+      <div
+        class="group relative bg-dark border border-dark-tertiary rounded-lg overflow-hidden hover:border-beige/50 transition-all duration-300 reveal delay-100"
+      >
+        <div
+          class="relative h-48 bg-gradient-to-br from-dark-secondary to-dark-tertiary overflow-hidden"
+        >
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-6xl font-bold text-beige/20">F</div>
+          </div>
+          <div
+            class="absolute inset-0 bg-dark/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+          >
+            <a
+              href="https://github.com/amirhaouala/Config-Files"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-3 bg-beige text-dark rounded-full hover:bg-white transition-colors duration-300"
+              aria-label="View project"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" x2="21" y1="14" y2="3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col justify-between">
+          <div>
+            <h3
+              class="text-xl font-medium text-white mb-2 group-hover:text-beige transition-colors duration-300"
+            >
+              <a
+                href="https://github.com/amirhaouala/Config-Files"
+                target="_blank"
+              >
+                Linux Desktop Configuration</a
+              >
+            </h3>
+            <p class="text-grey text-sm leading-relaxed mb-4">
+              My curated dotfiles for many of the software I use on Fedora with
+              Hyprland. Finally everyone can enjoy the best OS. 🎉
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >Linux Server</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >Containerization</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >Virtualization</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >Go</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2: Supabase/GoTrue based backend boilerplate -->
+      <div
+        class="group relative bg-dark border border-dark-tertiary rounded-lg overflow-hidden hover:border-beige/50 transition-all duration-300 reveal delay-100"
+      >
+        <div
+          class="relative h-48 bg-gradient-to-br from-dark-secondary to-dark-tertiary overflow-hidden"
+        >
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-6xl font-bold text-beige/20">G</div>
+          </div>
+          <div
+            class="absolute inset-0 bg-dark/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+          >
+            <a
+              href="https://github.com/amirhaouala/Config-Files"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-3 bg-beige text-dark rounded-full hover:bg-white transition-colors duration-300"
+              aria-label="View project"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" x2="21" y1="14" y2="3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col justify-between">
+          <div>
+            <h3
+              class="text-xl font-medium text-white mb-2 group-hover:text-beige transition-colors duration-300"
+            >
+              <a
+                href="https://github.com/amirhaouala/Config-Files"
+                target="_blank"
+              >
+                Supabase/GoTrue Based Backend Boilerplate</a
+              >
+            </h3>
+            <p class="text-grey text-sm leading-relaxed mb-4">
+              A production-ready backend boilerplate built in Go, leveraging
+              Supabase/GoTrue for authentication and PostgreSQL as database.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >Go</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >PostgreSQL</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >GraphQL</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >supabase/gotrue</span
+            ><span
+              class="px-2 py-1 text-xs text-beige border border-beige/30 rounded-full"
+              >Github Actions</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- EXPERIENCE SECTION — vertical timeline                        -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- A vertical timeline with three work entries. Each entry has a  -->
+<!-- company badge, job title, date, bullet responsibilities, and   -->
+<!-- a row of technology tags.                                      -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="experience" class="relative py-32 bg-dark">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 reveal">
+      <span
+        class="text-beige text-sm font-medium tracking-widest uppercase mb-4 block"
+        >Experience</span
+      >
+      <h2
+        class="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight"
+      >
+        Work History
+      </h2>
+    </div>
+    <div class="relative">
+      <!-- Vertical timeline line -->
+      <div
+        class="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-beige via-dark-tertiary to-transparent"
+      ></div>
+      <div class="space-y-12">
+        <!-- Entry 1: ITGOCRAFT -->
+        <div class="relative pl-8 md:pl-20 reveal">
+          <div
+            class="absolute left-0 md:left-8 top-2 w-4 h-4 bg-beige rounded-full -translate-x-1/2 border-4 border-dark"
+          ></div>
+          <div
+            class="bg-dark-secondary border border-dark-tertiary rounded-lg p-6 md:p-8"
+          >
+            <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <svg
+                    class="w-4 h-4 text-beige"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg
+                  ><span class="text-beige text-sm font-medium">ITGOCRAFT</span>
+                </div>
+                <h3 class="text-xl md:text-2xl font-medium text-white">
+                  Co-Founder and CTO
+                </h3>
+              </div>
+              <div class="flex items-center gap-2 text-grey text-sm">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                  <line x1="16" x2="16" y1="2" y2="6" />
+                  <line x1="8" x2="8" y1="2" y2="6" />
+                  <line x1="3" x2="21" y1="10" y2="10" /></svg
+                ><span>06/2023 - Present</span>
+              </div>
+            </div>
+            <ul class="space-y-2 mb-6">
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Performed freelance software testing for CISION, ensuring
+                  quality and reliability of client-facing applications</span
+                >
+              </li>
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Designed and developed responsive landing pages for a
+                  laboratory and a solar energy companies</span
+                >
+              </li>
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Engineered a reusable backend boilerplate using
+                  Supabase/GoTrue and PostgreSQL, accelerating project
+                  delivery</span
+                >
+              </li>
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Configured a secure, production-ready email server from
+                  scratch.</span
+                >
+              </li>
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Developed the frontend of a food delivery web app
+                  (sparow.com) in Next.js based on a Figma prototype,
+                  implementing all features except the map and integrating the
+                  REST API</span
+                >
+              </li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >Go</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >TypeScript</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >React</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >PostgreSQL</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >GraphQL</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Entry 2: Intuitive.ai GmbH -->
+        <div class="relative pl-8 md:pl-20 reveal delay-100">
+          <div
+            class="absolute left-0 md:left-8 top-2 w-4 h-4 bg-beige rounded-full -translate-x-1/2 border-4 border-dark"
+          ></div>
+          <div
+            class="bg-dark-secondary border border-dark-tertiary rounded-lg p-6 md:p-8"
+          >
+            <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <svg
+                    class="w-4 h-4 text-beige"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg
+                  ><span class="text-beige text-sm font-medium"
+                    >Intuitive.ai GmbH</span
+                  >
+                </div>
+                <h3 class="text-xl md:text-2xl font-medium text-white">
+                  Software Engineer
+                </h3>
+              </div>
+              <div class="flex items-center gap-2 text-grey text-sm">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                  <line x1="16" x2="16" y1="2" y2="6" />
+                  <line x1="8" x2="8" y1="2" y2="6" />
+                  <line x1="3" x2="21" y1="10" y2="10" /></svg
+                ><span>03/2022 - 06/2023</span>
+              </div>
+            </div>
+            <ul class="space-y-2 mb-6">
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Designed and deployed infrastructure for an analytics
+                  platform, implementing secure authentication, RESTful data
+                  APIs, and admin management tools with role-based access
+                  control</span
+                >
+              </li>
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Led backend development for app.baumev.de, building new
+                  features, integrating third-party APIs, conducting security
+                  audits, and adding GraphQL support</span
+                >
+              </li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >React</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >Go</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >PostgreSQL</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >Redis</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >GraphQL</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Entry 3: CareerBoosts -->
+        <div class="relative pl-8 md:pl-20 reveal delay-200">
+          <div
+            class="absolute left-0 md:left-8 top-2 w-4 h-4 bg-beige rounded-full -translate-x-1/2 border-4 border-dark"
+          ></div>
+          <div
+            class="bg-dark-secondary border border-dark-tertiary rounded-lg p-6 md:p-8"
+          >
+            <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <svg
+                    class="w-4 h-4 text-beige"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg
+                  ><span class="text-beige text-sm font-medium"
+                    >CareerBoosts</span
+                  >
+                </div>
+                <h3 class="text-xl md:text-2xl font-medium text-white">
+                  Back End Developer
+                </h3>
+              </div>
+              <div class="flex items-center gap-2 text-grey text-sm">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+                  <line x1="16" x2="16" y1="2" y2="6" />
+                  <line x1="8" x2="8" y1="2" y2="6" />
+                  <line x1="3" x2="21" y1="10" y2="10" /></svg
+                ><span>01/2022 - 03/2022</span>
+              </div>
+            </div>
+            <ul class="space-y-2 mb-6">
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Architected and started a full-stack website using Next.js,
+                  Go, Urql and GraphQL</span
+                >
+              </li>
+              <li
+                class="text-grey text-sm leading-relaxed flex items-start gap-2"
+              >
+                <span class="text-beige mt-1.5">•</span
+                ><span
+                  >Integrated Azure Active Directory for secure user
+                  authentication and role management</span
+                >
+              </li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >Go</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >TypeScript</span
+              ><span
+                class="px-3 py-1 text-xs font-medium text-beige border border-beige/30 rounded-full"
+                >GraphQL</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CONTACT SECTION — info grid + form                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Left side: email, phone, location, LinkedIn in a 2x2 grid.     -->
+<!-- Right side: a contact form with name, email, message fields.   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="contact" class="relative py-32 bg-dark">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 reveal">
+      <span
+        class="text-beige text-sm font-medium tracking-widest uppercase mb-4 block"
+        >Contact</span
+      >
+      <h2
+        class="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight mb-4"
+      >
+        Let's Work Together
+      </h2>
+      <p class="text-grey text-lg max-w-2xl mx-auto">
+        Have a project in mind? Let's discuss how we can collaborate.
+      </p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-16">
+      <!-- Contact info grid -->
+      <div class="space-y-8 reveal delay-100">
+        <div class="grid sm:grid-cols-2 gap-6 text-xs">
+          <!-- Email -->
+          <div class="flex items-start gap-4">
+            <div class="p-3 bg-beige/10 rounded-lg">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <rect width="20" height="16" x="2" y="4" rx="2"/>
+  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+</svg>
+            </div>
+            <div>
+              <p class="text-grey text-sm mb-1">Email</p>
+              <a
+                href="mailto:amir-haouala@outlook.com"
+                class="text-white hover:text-beige transition-colors duration-300"
+                >amir-haouala@outlook.com</a
+              >
+            </div>
+          </div>
+          <!-- Phone -->
+          <div class="flex items-start gap-4">
+            <div class="p-3 bg-beige/10 rounded-lg">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+</svg>
+            </div>
+            <div>
+              <p class="text-grey text-sm mb-1">Phone</p>
+              <a
+                href="tel:+21658804727"
+                class="text-white hover:text-beige transition-colors duration-300"
+                >+216 58 804 727</a
+              >
+            </div>
+          </div>
+          <!-- Location -->
+          <div class="flex items-start gap-4">
+            <div class="p-3 bg-beige/10 rounded-lg">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+  <circle cx="12" cy="10" r="3"/>
+</svg>
+            </div>
+            <div>
+              <p class="text-grey text-sm mb-1">Location</p>
+              <p class="text-white">Tunis, Tunisia</p>
+            </div>
+          </div>
+          <!-- LinkedIn -->
+          <div class="flex items-start gap-4">
+            <div class="p-3 bg-beige/10 rounded-lg">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-5 h-5 text-beige">
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect width="4" height="12" x="2" y="9"/>
+  <circle cx="4" cy="4" r="2"/>
+</svg>
+            </div>
+            <div>
+              <p class="text-grey text-sm mb-1">LinkedIn</p>
+              <a
+                href="https://linkedin.com/in/amir-haouala"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-white hover:text-beige transition-colors duration-300"
+                >linkedin.com/in/amir-haouala</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Quote block — visible only on desktop -->
+        <div
+          class="hidden lg:block mt-12 p-8 bg-dark-secondary border border-dark-tertiary rounded-lg"
+        >
+          <p class="text-grey text-sm leading-relaxed italic">
+            "I'm always excited to work on new challenges and collaborate with
+            talented people. Whether you have a specific project or just want to
+            connect, I'd love to hear from you."
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="reveal delay-200">
+        <form id="contact-form" class="space-y-6">
+          <div>
+            <label for="name" class="block text-grey text-sm mb-2">Name</label
+            ><input
+              id="name"
+              name="name"
+              type="text"
+              required
+              class="w-full px-4 py-3 bg-dark-secondary border border-dark-tertiary rounded-lg text-white placeholder:text-grey/50 focus:border-beige focus:ring-1 focus:ring-beige/20 focus:outline-none transition-colors duration-300"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-grey text-sm mb-2">Email</label
+            ><input
+              id="email"
+              name="email"
+              type="email"
+              required
+              class="w-full px-4 py-3 bg-dark-secondary border border-dark-tertiary rounded-lg text-white placeholder:text-grey/50 focus:border-beige focus:ring-1 focus:ring-beige/20 focus:outline-none transition-colors duration-300"
+              placeholder="your@email.com"
+            />
+          </div>
+          <div>
+            <label for="message" class="block text-grey text-sm mb-2"
+              >Message</label
+            ><textarea
+              id="message"
+              name="message"
+              required
+              rows="5"
+              class="w-full px-4 py-3 bg-dark-secondary border border-dark-tertiary rounded-lg text-white placeholder:text-grey/50 focus:border-beige focus:ring-1 focus:ring-beige/20 focus:outline-none transition-colors duration-300 resize-none"
+              placeholder="Tell me about your project..."
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full btn-primary flex items-center justify-center gap-2"
+          >
+            <span id="btn-text">Send Message</span
+            ><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4" id="btn-icon">
+  <line x1="22" x2="11" y1="2" y2="13"/>
+  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+</svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- FOOTER — copyright and attribution                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- Simple two-column footer: copyright on the left, build info    -->
+<!-- on the right with a small heart icon.                          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<footer class="relative py-8 bg-dark-secondary border-t border-dark-tertiary">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-grey text-sm">
+        &copy; 2026 Amir Haouala. All rights reserved.
+      </p>
+      <p class="text-grey text-sm flex items-center gap-1">
+        Built with
+        <svg fill="#c5b8a5" stroke="#c5b8a5" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4 mx-1">
+  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+</svg>
+        using JS, HTML &amp; Tailwind CSS
+      </p>
+    </div>
+  </div>
+</footer>
+    <script src="script.js"></script>
+  </body>
+</html>

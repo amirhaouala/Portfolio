@@ -1,0 +1,184 @@
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TERMINAL SECTION — interactive command-line portfolio          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- A retro CRT terminal where visitors can type commands:         -->
+<!--   skills, experience, contact, clear                           -->
+<!-- Contains scanline overlay, vignette, and typing animations.    -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section
+  id="terminal"
+  class="relative w-full flex items-center justify-center"
+  style="background: #000000; padding: 80px 24px"
+>
+  <!-- CRT scanline overlay — creates the retro monitor look -->
+  <div class="crt-overlay absolute inset-0 pointer-events-none"></div>
+
+  <!--
+      Static noise texture overlay — very subtle film grain.
+      Uses an inline SVG data URI so no external file is needed.
+      pointer-events: none means clicks pass through to the terminal.
+    -->
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="
+      opacity: 0.04;
+      background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E&quot;);
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    "
+  ></div>
+
+  <!--
+      Terminal content wrapper.
+      z-10 places it above the CRT overlays.
+      max-w-[800px] prevents the terminal from becoming too wide.
+    -->
+  <div class="relative z-10 w-full max-w-[800px]">
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- TERMINAL WINDOW                                            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--
+        The main terminal box. Has:
+        - Dark background (#0a0a0a)
+        - Subtle border (#1a1a1a)
+        - Very faint green glow shadow
+        - Entrance animation (terminal-entrance class, activated by JS)
+      -->
+    <div
+      id="terminalWindow"
+      class="terminal-entrance"
+      style="
+        background: #0a0a0a;
+        border: 1px solid #1a1a1a;
+        box-shadow: 0 0 60px rgba(51, 255, 0, 0.05);
+      "
+    >
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- TERMINAL HEADER — macOS-style window chrome            -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!--
+          The coloured dots (red/yellow/green) mimic macOS window buttons.
+          The centered text shows the "user@host" prompt format.
+        -->
+      <div
+        class="flex items-center h-8 px-4 gap-2"
+        style="background: #111111; border-bottom: 1px solid #1a1a1a"
+      >
+        <!-- Three coloured dots -->
+        <div class="flex gap-2">
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            style="background: #ff5f56"
+          ></div>
+          <!-- close (red) -->
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            style="background: #ffbd2e"
+          ></div>
+          <!-- minimize (yellow) -->
+          <div
+            class="w-2.5 h-2.5 rounded-full"
+            style="background: #27c93f"
+          ></div>
+          <!-- maximize (green) -->
+        </div>
+        <!-- User@hostname — centered, VT323 terminal font, green -->
+        <div
+          class="font-terminal text-sm flex-1 text-center"
+          style="color: #33ff00"
+        >
+          amir@haouala:~$
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- TERMINAL BODY — where all text appears                 -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!--
+          This div is populated entirely by JavaScript. When the page
+          loads, the welcome message is typed out. Then an input line
+          appears. As the user types commands, output lines are appended
+          here.
+
+          Clicking anywhere in this div focuses the hidden input field
+          (see below) so the user can type immediately.
+        -->
+      <div
+        id="terminalOutput"
+        class="p-6 md:p-8 overflow-y-auto font-terminal"
+        style="
+          font-size: 18px;
+          color: #33ff00;
+          line-height: 1.6;
+          max-height: 60vh;
+        "
+      >
+        <!-- Content injected by JavaScript — see script.js -->
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SOCIAL BUTTONS — below the terminal window               -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--
+        Three outlined buttons: [email], [github], [linkedin].
+        Hover fills the button with phosphor green and inverts text
+        to black — a satisfying retro-terminal feedback effect.
+      -->
+    <div class="flex flex-wrap justify-center gap-4 mt-8">
+      <a
+        href="https://linkedin.com/in/amir-haouala"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="terminal-btn font-body text-xs px-4 py-2"
+        style="color: #33ff00; border: 1px solid #33ff00"
+        >[linkedin]</a
+      >
+      <a
+        href="https://github.com/amirhaouala"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="terminal-btn font-body text-xs px-4 py-2"
+        style="color: #33ff00; border: 1px solid #33ff00"
+        >[github]</a
+      >
+      <a
+        href="https://www.instagram.com/amirhwl/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="terminal-btn font-body text-xs px-4 py-2"
+        style="color: #33ff00; border: 1px solid #33ff00"
+        >[instagram]</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- HIDDEN INPUT FIELD                                            -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!--
+    This is the secret behind the terminal interaction. It's a real
+    HTML <input> element but completely invisible. When the user clicks
+    the terminal, this input gets focus and captures all keyboard input.
+    JavaScript reads its value and displays it in the terminal body.
+
+    autocomplete="off" and spellcheck="false" prevent the browser from
+    showing suggestions or red underlines — would break the illusion.
+  -->
+<input
+  id="terminalInput"
+  type="text"
+  class="fixed opacity-0"
+  style="
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: 0;
+  "
+  autocomplete="off"
+  spellcheck="false"
+/>
